@@ -18,5 +18,45 @@ CHIP Mux8Way16 {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    Not(in=sel[0], out=s0);
+    Not(in=sel[1], out=s1);
+    Not(in=sel[2], out=s2);
+
+    And(a=s2, b=s1, out=s00x);
+    And(a=s00x, b=s0, out=s000);
+    And16With1(a=a, b=s000, out=outa);
+
+    And(a=s00x, b=sel[0], out=s001);
+    And16With1(a=b, b=s001, out=outb);
+
+    And(a=s2, b=sel[1], out=s01x);
+    And(a=s01x, b=s0, out=s010);
+    And16With1(a=c, b= s010, out=outc);
+
+    And(a=s01x, b=sel[0], out=s011);
+    And16With1(a=d, b=s011, out=outd);
+
+    And(a=sel[2], b=s1, out=s10x);
+    And(a=s10x, b=s0, out=s100);
+    And16With1(a=e, b=s100, out=oute);
+
+    And(a=s10x, b=sel[0], out=s101);
+    And16With1(a=f, b=s101, out=outf);
+
+    And(a=sel[2], b=sel[1], out=s11x);
+    And(a=s11x, b=s0, out=s110);
+    And16With1(a=g, b=s110, out=outg);
+
+    And(a=s11x, b=sel[0], out=s111);
+    And16With1(a=h, b=s111, out=outh);
+
+    Or16(a=outa, b=outb, out=outab);
+    Or16(a=outc, b=outd, out=outcd);
+    Or16(a=oute, b=outf, out=outef);
+    Or16(a=outg, b=outh, out=outgh);
+
+    Or16(a=outab, b=outcd, out=outabcd);
+    Or16(a=outef, b=outgh, out=outefgh);
+
+    Or16(a=outabcd, b=outefgh, out=out);
 }
